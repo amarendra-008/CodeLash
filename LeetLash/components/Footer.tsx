@@ -86,18 +86,7 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-mono text-xs text-fog tracking-[0.15em]">
-            Powered by{' '}
-            <span className="text-charcoal">Next.js</span>
-            {' · '}
-            <span className="text-charcoal">Tailwind</span>
-            {' · '}
-            <span className="text-charcoal">Gemini</span>
-            {' · '}
-            <span className="text-charcoal">LeetCode GraphQL</span>
-          </p>
-
-          <p
+<p
             className="font-literary italic text-sm text-fog"
             aria-label="Closing quote"
           >
