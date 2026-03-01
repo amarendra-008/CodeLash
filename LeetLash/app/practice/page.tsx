@@ -18,7 +18,7 @@
    Mobile: stacks vertically.
    ═══════════════════════════════════════════════════ */
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -102,7 +102,15 @@ interface StoredRoom extends RoomFormValues {
   status: 'waiting' | 'active' | 'ended'
 }
 
-export default function PracticeRoom() {
+export default function PracticeRoomPage() {
+  return (
+    <Suspense>
+      <PracticeRoom />
+    </Suspense>
+  )
+}
+
+function PracticeRoom() {
   /* ── Supabase auth ──────────────────────────────── */
   const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null)
   const [user, setUser] = useState<User | null>(null)
