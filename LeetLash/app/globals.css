@@ -1,0 +1,493 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════
+   BASE RESET & DEFAULTS
+   ═══════════════════════════════════════════════════ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #050505;
+  color: #f0e6d3;
+  font-family: var(--font-barlow), 'Barlow Condensed', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR — blood-thin, ember-red
+   ═══════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8102e;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ef233c;
+}
+
+/* ═══════════════════════════════════════════════════
+   SELECTION
+   ═══════════════════════════════════════════════════ */
+
+::selection {
+  background: rgba(200, 16, 46, 0.75);
+  color: #f0e6d3;
+}
+
+::-moz-selection {
+  background: rgba(200, 16, 46, 0.75);
+  color: #f0e6d3;
+}
+
+/* ═══════════════════════════════════════════════════
+   FOCUS RING — ember outline
+   ═══════════════════════════════════════════════════ */
+
+:focus-visible {
+  outline: 2px solid #c8102e;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   NOISE TEXTURE OVERLAY
+   Creates cinematic film grain effect
+   ═══════════════════════════════════════════════════ */
+
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCANLINES — subtle CRT texture for depth
+   ═══════════════════════════════════════════════════ */
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════════
+   GRADIENT TEXT UTILITIES
+   ═══════════════════════════════════════════════════ */
+
+.text-gradient-ember {
+  background: linear-gradient(135deg, #ef233c 0%, #e85d04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-subtle {
+  background: linear-gradient(135deg, #f0e6d3 0%, #8a8a8a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════
+   GLOW UTILITIES
+   ═══════════════════════════════════════════════════ */
+
+.glow-ember {
+  box-shadow:
+    0 0 20px rgba(200, 16, 46, 0.35),
+    0 0 60px rgba(200, 16, 46, 0.12);
+}
+
+.glow-ember-lg {
+  box-shadow:
+    0 0 40px rgba(200, 16, 46, 0.5),
+    0 0 80px rgba(200, 16, 46, 0.2),
+    0 0 120px rgba(200, 16, 46, 0.07);
+}
+
+/* ═══════════════════════════════════════════════════
+   CARD BORDER HOVER EFFECT
+   ═══════════════════════════════════════════════════ */
+
+.card-ember {
+  border: 1px solid #1a1a1a;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+  position: relative;
+}
+
+.card-ember:hover {
+  border-color: rgba(200, 16, 46, 0.35);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 0 30px rgba(200, 16, 46, 0.08);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════════════ */
+
+.font-display-size-hero {
+  font-size: clamp(5rem, 18vw, 15rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.font-display-size-xl {
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.font-display-size-lg {
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 1;
+}
+
+/* ═══════════════════════════════════════════════════
+   AGAIN. FLASH — The Fletcher Moment
+   Runs once on page load. Like Fletcher barking
+   "AGAIN." before you've even started.
+   ═══════════════════════════════════════════════════ */
+
+@keyframes again-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  12% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0.18;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+.again-flash {
+  animation: again-flash 3.5s ease-in-out 0.8s 1 both;
+}
+
+/* ═══════════════════════════════════════════════════
+   MARQUEE PAUSE ON HOVER
+   ═══════════════════════════════════════════════════ */
+
+.marquee-track:hover .marquee-inner {
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════════════
+   HORIZONTAL RULE — blood-thin divider
+   ═══════════════════════════════════════════════════ */
+
+.divider-ember {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(200, 16, 46, 0.6) 30%,
+    rgba(200, 16, 46, 0.6) 70%,
+    transparent 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE VIDEO WRAPPER
+   ═══════════════════════════════════════════════════ */
+
+.aspect-video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION ENTRY — for JS-free fade-in on scroll
+   (used with IntersectionObserver in components)
+   ═══════════════════════════════════════════════════ */
+
+.section-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════
+   CREATE ROOM — range slider (NumberSlider.tsx)
+   Thumb styled ember-red. Track fill is done inline
+   via a CSS gradient background on the input itself.
+   ═══════════════════════════════════════════════════ */
+
+.room-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: #1a1a1a; /* fallback; overridden inline */
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+/* WebKit thumb */
+.room-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #c8102e;
+  border: 2px solid #ef233c;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(200, 16, 46, 0.55);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.room-slider:hover::-webkit-slider-thumb,
+.room-slider:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 22px rgba(200, 16, 46, 0.8);
+  transform: scale(1.18);
+}
+
+/* Firefox thumb */
+.room-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #c8102e;
+  border: 2px solid #ef233c;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(200, 16, 46, 0.55);
+  transition: box-shadow 0.2s ease;
+}
+
+.room-slider:hover::-moz-range-thumb {
+  box-shadow: 0 0 22px rgba(200, 16, 46, 0.8);
+}
+
+/* Firefox track */
+.room-slider::-moz-range-track {
+  background: transparent;
+  height: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   CODEMIRROR — blood-room overrides
+   Injects Whiplash aesthetic into the editor.
+   ═══════════════════════════════════════════════════ */
+
+/* Cursor — razor-thin crimson line */
+.cm-editor .cm-cursor,
+.cm-editor .cm-dropCursor {
+  border-left-color: #dc2626 !important;
+  border-left-width: 2px !important;
+}
+
+/* Active line — barely-there ember blush */
+.cm-editor .cm-activeLine {
+  background-color: rgba(220, 38, 38, 0.04) !important;
+}
+
+/* Selection highlight — blood mist */
+.cm-editor .cm-selectionBackground,
+.cm-editor .cm-content ::selection {
+  background-color: rgba(200, 16, 46, 0.22) !important;
+}
+
+/* Gutter — charcoal strip, flush with void */
+.cm-editor .cm-gutters {
+  background-color: #0a0a0a !important;
+  border-right: 1px solid #1a1a1a !important;
+  color: #3d3d3d !important;
+}
+
+/* Active line number — ember dim */
+.cm-editor .cm-activeLineGutter {
+  background-color: rgba(220, 38, 38, 0.06) !important;
+  color: #c8102e !important;
+}
+
+/* Editor body — pure void */
+.cm-editor,
+.cm-editor .cm-scroller {
+  background-color: #050505 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;
+  font-size: 13.5px !important;
+  line-height: 1.7 !important;
+}
+
+/* Focused editor — subtle ember border glow */
+.cm-editor.cm-focused {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Matched brackets — ember highlight */
+.cm-editor .cm-matchingBracket {
+  background-color: rgba(200, 16, 46, 0.18) !important;
+  color: #f0e6d3 !important;
+  outline: 1px solid rgba(200, 16, 46, 0.4) !important;
+}
+
+/* Scrollbar in editor — blood-thin */
+.cm-editor .cm-scroller::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.cm-editor .cm-scroller::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+.cm-editor .cm-scroller::-webkit-scrollbar-thumb {
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+
+.cm-editor .cm-scroller::-webkit-scrollbar-thumb:hover {
+  background: #c8102e;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRACTICE ROOM — problem description HTML styling
+   The LeetCode HTML content needs styling in dark ctx.
+   ═══════════════════════════════════════════════════ */
+
+.problem-content p {
+  margin-bottom: 0.875rem;
+  color: #d4c9b8;
+  line-height: 1.7;
+}
+
+.problem-content code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.82em;
+  background-color: #1a1a1a;
+  color: #f0e6d3;
+  padding: 0.1em 0.4em;
+  border-radius: 2px;
+  border: 1px solid #2a2a2a;
+}
+
+.problem-content strong {
+  color: #f0e6d3;
+  font-weight: 600;
+}
+
+.problem-content em {
+  color: #b0a090;
+  font-style: italic;
+}
+
+.problem-content ol,
+.problem-content ul {
+  margin-left: 1.4rem;
+  margin-bottom: 0.875rem;
+  color: #d4c9b8;
+}
+
+.problem-content li {
+  margin-bottom: 0.35rem;
+  line-height: 1.65;
+}
+
+.problem-content pre {
+  background-color: #0a0a0a;
+  border: 1px solid #1a1a1a;
+  padding: 1rem;
+  border-radius: 2px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  color: #f0e6d3;
+  margin-bottom: 1rem;
+}
+
+.problem-content sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  color: #8a8a8a;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRACTICE ROOM — layout helpers
+   ═══════════════════════════════════════════════════ */
+
+/* Vertical divider with ember glow */
+.practice-divider {
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(200, 16, 46, 0.25) 20%,
+    rgba(200, 16, 46, 0.35) 50%,
+    rgba(200, 16, 46, 0.25) 80%,
+    transparent 100%
+  );
+  flex-shrink: 0;
+}
+
+/* Coach panel — red-tinted prose */
+.coach-message {
+  font-family: var(--font-barlow), 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #d4c9b8;
+  white-space: pre-wrap;
+}
