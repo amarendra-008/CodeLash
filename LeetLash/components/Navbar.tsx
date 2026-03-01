@@ -72,7 +72,7 @@ export default function Navbar() {
             className="w-5 h-5 text-ember transition-transform duration-300 group-hover:rotate-12"
             aria-hidden="true"
           />
-          <span className="font-display text-2xl tracking-wider text-parchment group-hover:text-bone transition-colors">
+          <span className="font-display text-2xl leading-none tracking-wider text-parchment group-hover:text-bone transition-colors inline-flex items-baseline">
             CODE<span className="text-ember">LASH</span>
           </span>
           <span className="ml-1 flex items-center gap-1" title="Practice in session" aria-hidden="true">
