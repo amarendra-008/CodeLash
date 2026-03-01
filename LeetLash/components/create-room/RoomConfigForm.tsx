@@ -163,6 +163,23 @@ export default function RoomConfigForm() {
       // localStorage unavailable — continue anyway
     }
 
+    // Fire-and-forget invite emails for addresses added at creation time
+    if (data.emails.length > 0) {
+      fetch('/api/invite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          roomId,
+          emails: data.emails,
+          roomConfig: {
+            numProblems: data.numProblems,
+            difficulties: data.difficulties,
+            topics: data.topics,
+          },
+        }),
+      }).catch(() => {})
+    }
+
     router.push(`/room/${roomId}`)
   }
 

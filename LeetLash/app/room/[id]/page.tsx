@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import {
   Drum, Users, Copy, Check, ArrowRight, Mail, X,
-  Hash, Layers, Target, Clock, Plus, Send,
+  Hash, Layers, Target, Clock, Plus, Send, Loader2,
 } from 'lucide-react'
 
 import Navbar from '@/components/Navbar'
@@ -38,6 +38,7 @@ export default function RoomPage() {
   const [emailInput, setEmailInput] = useState('')
   const [emailError, setEmailError] = useState('')
   const [sent, setSent] = useState(false)
+  const [isSending, setIsSending] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -82,11 +83,31 @@ export default function RoomPage() {
   const removeExtra = (email: string) =>
     setExtraEmails((prev) => prev.filter((e) => e !== email))
 
-  const handleSend = () => {
-    if (extraEmails.length === 0) return
-    // No real email backend yet — just mark as "sent"
-    setSent(true)
-    setTimeout(() => setSent(false), 3000)
+  const handleSend = async () => {
+    if (extraEmails.length === 0 || isSending) return
+    setIsSending(true)
+    try {
+      await fetch('/api/invite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          roomId: id,
+          emails: extraEmails,
+          roomConfig: {
+            numProblems: room?.numProblems ?? 5,
+            difficulties: room?.difficulties ?? [],
+            topics: room?.topics ?? [],
+          },
+        }),
+      })
+      setSent(true)
+      setExtraEmails([])
+      setTimeout(() => setSent(false), 4000)
+    } catch {
+      /* show nothing — link copy is always the fallback */
+    } finally {
+      setIsSending(false)
+    }
   }
 
   if (!mounted) return null
@@ -399,8 +420,10 @@ export default function RoomPage() {
                         <button
                           type="button"
                           onClick={handleSend}
+                          disabled={isSending}
                           className="flex items-center gap-2 font-condensed text-xs tracking-[0.18em] uppercase
                             px-5 py-2.5 border transition-all duration-200
+                            disabled:opacity-60 disabled:cursor-not-allowed
                             focus-visible:outline focus-visible:outline-2 focus-visible:outline-ember focus-visible:outline-offset-4"
                           style={
                             sent
@@ -410,15 +433,12 @@ export default function RoomPage() {
                         >
                           {sent ? (
                             <><Check className="w-3.5 h-3.5" aria-hidden="true" /> Invites sent</>
+                          ) : isSending ? (
+                            <><Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> Sending…</>
                           ) : (
                             <><Send className="w-3.5 h-3.5" aria-hidden="true" /> Send {extraEmails.length} invite{extraEmails.length !== 1 ? 's' : ''}</>
                           )}
                         </button>
-                        {!sent && (
-                          <p className="mt-1.5 font-condensed text-[10px] text-charcoal tracking-wider">
-                            Email delivery requires backend wiring — coming soon.
-                          </p>
-                        )}
                       </motion.div>
                     )}
                   </div>
